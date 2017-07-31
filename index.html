@@ -2,32 +2,20 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<title>Hello World!</title>
 	</head>
 	<body>
 		<h1>Hello World!</h1>
-		<!-- All of the Node.js APIs are available in this renderer process. -->
-		We are using Node.js <script>document.write(process.versions.node)</script>,
-		Chromium <script>document.write(process.versions.chrome)</script>,
-		and Electron <script>document.write(process.versions.electron)</script>.
 	</body>
 
-	<a id="demo" onclick="prompt()"><button class="btn btn-large btn-default moreInfo-Link-button">More Info</button></a> 
+	<a id="prompt-button">
+		<button class="btn btn-large btn-default moreInfo-Link-button">
+			Button
+		</button>
+	</a> 
 
 <script>
-			// require('./renderer.js')
-function prompt() {
-	const remote = require('electron').remote;
-	const path = require('path')
-	const url = require('url')
-	const BrowserWindow = remote.BrowserWindow;
-
-	var win = new BrowserWindow({ width: 400, height: 200 });
-	win.loadURL(url.format({
-    pathname: path.join(__dirname, 'prompt.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-}
+	require('./renderer.js')
 </script>
 </html>
