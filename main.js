@@ -78,6 +78,12 @@ var conn = "HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=ioth
 var registry = iothub.Registry.fromConnectionString(conn);
 var device = new iothub.Device(null);
 
+ipcMain.on('list-request', (event, arg) => {
+	registry.list((err, result) => {
+		console.log(result);
+	});
+});
+
 ipcMain.on('click-confirm', (event, arg) => {
 	device.deviceId = arg;
 	createDevice(device);
