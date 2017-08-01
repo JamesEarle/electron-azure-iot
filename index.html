@@ -10,16 +10,26 @@
 		<header>
 			<h2>IoT Edge</h2>
 		</header>
-		<table></table>
-		<div>
-			<a id="prompt-button" href="#">
-				<img id="add-device" src="img/plus.png">
-			</a> 
-		</div>
-		<div>
-			<a id="list-button" href="#">
-				<img id="list-devices" src="img/logout.png">
-			</a> 
+		<div class="wrapper">
+			<div class="btn-group">
+				<button id="add-connection" class="btn">
+					Add a connection
+				</button>
+				<button id="prompt-button" class="btn" href="#">
+					Create a device
+				</button> 
+				<button id="list-button" class="btn" href="#">
+					List Devices
+				</button> 
+			</div>
+			<table id="device-table">
+				<tr>
+					<th>ID</th>
+					<th>Key</th>
+					<th>C2D Count</th>
+					<th>Connection</th>
+				</tr>
+			</table>
 		</div>
 	</body>
 

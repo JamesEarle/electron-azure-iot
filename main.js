@@ -36,5 +36,8 @@ app.on('activate', function () {
 	}
 });
 
-require('./ReadDeviceList');
 require('./CreateDeviceIdentity');
+require('./ReadDeviceList');
+require('./AddConnection');
+
+// HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=
