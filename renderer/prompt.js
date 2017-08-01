@@ -6,7 +6,6 @@ const url = require('url')
 document.getElementById('submit').addEventListener("click", () => {
     let win = remote.getCurrentWindow();
     let key = document.getElementById('key');
-    console.log(key.value)
     ipcRenderer.send('click-confirm', key.value);
     win.close();
 });

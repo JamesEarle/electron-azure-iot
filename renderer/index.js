@@ -16,7 +16,3 @@ document.getElementById('prompt-button').addEventListener("click", () => {
 document.getElementById('list-button').addEventListener("click", () => {
     ipcRenderer.send('list-request', 'true');
 });
-
-// Braces { } around object are a "destructuring assignment",
-// this is an ECMAScript 6 construct, feature of JavaScript 1.7
-// const ipcRenderer = require('electron').ipcRenderer;

@@ -1,30 +1,25 @@
 'use strict';
 
+const { ipcMain } = require('electron');
+
 var iothub = require('azure-iothub');
-
 var conn = "HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=";
-
 var registry = iothub.Registry.fromConnectionString(conn);
-
 var device = new iothub.Device(null);
 
-console.log("required");
+ipcMain.on('click-confirm', (event, arg) => {
+	device.deviceId = arg;
+	createDevice(device);
+	console.log("Device registered");
+});
 
-function setId(id) {
-    device.deviceId = id;
-}
-
-function id() {
-    return device.deviceId;
-}
-
-function createDevice (id) {
+function createDevice (device) {
     registry.create(device, function (err, deviceInfo, res) {
         if (err) { // already exists
-            registry.get(id, printDeviceInfo);
+            registry.get(device.deviceId, printDeviceInfo);
         }
         if (deviceInfo) {
-            printDeviceInfo(err, deviceInfo, res)
+            printDeviceInfo(err, deviceInfo, res);
         }
     });
 }
