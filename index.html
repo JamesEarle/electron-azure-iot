@@ -3,17 +3,20 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<title>Hello World!</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Azure IoT Edge Management Tool!</title>
 	</head>
 	<body>
-		<h1>Hello World!</h1>
+		<header>
+			<h2>IoT Edge</h2>
+		</header>
+		<table></table>
+		<div class="add-device">
+			<a id="prompt-button" href="#">
+				<img id="add-device" src="img/plus.png">
+			</a> 
+		</div>
 	</body>
-
-	<a id="prompt-button">
-		<button class="btn btn-large btn-default moreInfo-Link-button">
-			Button
-		</button>
-	</a> 
 
 <script>
 	require('./renderer/index.js')

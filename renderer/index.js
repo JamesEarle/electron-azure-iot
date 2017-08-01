@@ -11,7 +11,6 @@ document.getElementById('prompt-button').addEventListener("click", () => {
         protocol: 'file:',
         slashes: true
     }))
-    ipcRenderer.send('click-confirm', 'button-clicked');
 });
 
 // Braces { } around object are a "destructuring assignment",
