@@ -17,6 +17,15 @@ document.getElementById('list-button').addEventListener("click", () => {
     ipcRenderer.send('list-request', 'true');
 });
 
+document.getElementById('reset-button').addEventListener('click', () => {
+    let table = document.getElementById("device-table");
+    // console.log(table.rows.length);
+    for(let i=1;i<table.rows.length;i++) {
+        table.deleteRow(1);
+        console.log(i);
+    }
+});
+
 document.getElementById('add-connection').addEventListener('click', () => {
     const BrowserWindow = remote.BrowserWindow;
     var win = new BrowserWindow({ width: 400, height: 200 });
