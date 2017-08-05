@@ -47,20 +47,27 @@ ipcRenderer.on('devices', (event, arg) => {
         let key = row.insertCell(1);
         let c2dCount = row.insertCell(2);
         let connectionState = row.insertCell(3);
-        let d2cListener = row.insertCell(4);
+        let d2c = row.insertCell(4);
 
         id.innerHTML = arg[i].deviceId;
         key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
         c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
         connectionState.innerHTML = arg[i].connectionState;
-        d2cListener.innerHTML = "<a id='simulate-" + (i+1) + "' href='#'>Simulate " + (i+1) + "</a>";
+        d2c.innerHTML = "<a id='simulate-" + (i+1) + "' href='#'>Simulate " + (i+1) + "</a>";
     }
 
     for (let i=0;i<arg.length;i++) {
-        // Add event listeners for new HTML elements
+        // Add event listeners for new a elements
         document.getElementById('simulate-' + (i+1)).addEventListener('click', () => {
             // function that takes any given ID and listens on that device
-            console.log('clicked ' + (i+1)); 
+            var d2cListener = require('../ReadD2CMessages');
+            var simulateDevice = require('../SimulatedDevice');
+            d2cListener.createReceiver();
+            simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
+            simulateDevice.createClient();
+            simulateDevice.open();
+            // console.log(arg[i].deviceId);
+            // console.log(arg[i].authentication.symmetricKey.primaryKey);
         });
     }
 

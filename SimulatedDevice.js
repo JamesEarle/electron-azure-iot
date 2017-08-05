@@ -4,9 +4,20 @@ var clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConn
 var Message = require('azure-iot-device').Message;
 
 // temp, make work first then get dynamic conn strings
-var connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=MyFavouriteDevice;SharedAccessKey=lwkqyASM1KcY6p8sprk6MDW2DlZeFkB5ftjpWq7J05I=';
+// var connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=MyFavouriteDevice;SharedAccessKey=lwkqyASM1KcY6p8sprk6MDW2DlZeFkB5ftjpWq7J05I=';
 
-var client = clientFromConnectionString(connectionString);
+let connectionString;
+let client;
+
+exports.createConnection = (id, key) => {
+    this.connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
+}
+
+exports.createClient = () => {
+    this.client = clientFromConnectionString(this.connectionString);
+    console.log(this.connectionString);
+}
+
 
 function printResultFor(op) {
     return function printResult(err, res) {
@@ -29,9 +40,12 @@ var connectCallback = function (err) {
             var message = new Message(data);
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
             console.log("Sending message: " + message.getData());
-            client.sendEvent(message, printResultFor('send'));
+            // this.client is undefined in this scope, nested I guess.
+            this.client.sendEvent(message, printResultFor('send'));
         }, 1000);
     }
 };
 
-client.open(connectCallback);
+exports.open = () => {
+    this.client.open(connectCallback);
+}
