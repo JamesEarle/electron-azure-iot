@@ -26,6 +26,7 @@ document.getElementById('reset-button').addEventListener('click', () => {
     }
 });
 
+
 document.getElementById('add-connection').addEventListener('click', () => {
     const BrowserWindow = remote.BrowserWindow;
     var win = new BrowserWindow({ width: 400, height: 200 });
@@ -36,6 +37,7 @@ document.getElementById('add-connection').addEventListener('click', () => {
     }));
 });
 
+// Create the table
 ipcRenderer.on('devices', (event, arg) => {
     let table = document.getElementById("device-table");
     for(let i=0;i<arg.length;i++) {
@@ -45,10 +47,21 @@ ipcRenderer.on('devices', (event, arg) => {
         let key = row.insertCell(1);
         let c2dCount = row.insertCell(2);
         let connectionState = row.insertCell(3);
+        let d2cListener = row.insertCell(4);
 
         id.innerHTML = arg[i].deviceId;
         key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
         c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
         connectionState.innerHTML = arg[i].connectionState;
+        d2cListener.innerHTML = "<a id='simulate-" + (i+1) + "' href='#'>Simulate " + (i+1) + "</a>";
     }
+
+    for (let i=0;i<arg.length;i++) {
+        // Add event listeners for new HTML elements
+        document.getElementById('simulate-' + (i+1)).addEventListener('click', () => {
+            // function that takes any given ID and listens on that device
+            console.log('clicked ' + (i+1)); 
+        });
+    }
+
 });
