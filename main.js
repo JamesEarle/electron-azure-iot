@@ -45,8 +45,16 @@ app.on('activate', function () {
 // device twins
 // methods on device
 // simulate multiple devices, listen to multiple devices
-require('./CreateDeviceIdentity');
-require('./ReadDeviceList');
 require('./ConnectionManager');
+require('./RegistryManager');
+
+require('./ReadDeviceList');
+
+// ipcMain.on('registry-request', (event, arg) => {
+//     console.log('starting registry creation1');
+// });
+
+
+// require('./CreateDeviceIdentity');
 
 // HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=

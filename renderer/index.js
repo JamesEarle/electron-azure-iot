@@ -14,7 +14,11 @@ document.getElementById('prompt-button').addEventListener("click", () => {
 });
 
 document.getElementById('list-button').addEventListener("click", () => {
-    ipcRenderer.send('list-request', 'true');
+    ipcRenderer.send('list-request', '');
+});
+
+ipcRenderer.on('registry-request', (event, arg) => {
+    ipcRenderer.send('make-reg');
 });
 
 document.getElementById('reset-button').addEventListener('click', () => {
