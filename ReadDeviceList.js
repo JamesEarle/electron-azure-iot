@@ -7,14 +7,9 @@ const { ipcMain } = require('electron');
 var registry;
 
 ipcMain.on('list-request', (event, arg) => {
-    event.sender.send('registry-request', '');
+    ipcMain.emit('registry-request');
     // event.sender.send('get-registry', '')
-    console.log('send reg request');
-    // what is the order of operations? will 'get-registry' operate here?
-});
-
-ipcMain.on('make-reg', (event, args) => {
-    console.log('this is whacky.'); // shouldn't have to do this, find workaround
+    // console.log('send reg request');
 });
 
 

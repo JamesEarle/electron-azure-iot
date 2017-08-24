@@ -9,12 +9,13 @@ var connectionString;
 ipcMain.on('connection-request', (event, arg) => {
     connectionString = deleteThis;
     // connectionString = arg;
-    // event.sender.send('registry-request');
-    ipcMain.emit('registry-request');
-    console.log("Connection string set");
+    // console.log("Connection string set");
+    console.log("1 -"+ connectionString);
 });
 
 
 ipcMain.on('get-connection-string', (event, arg) => {
-    event.sender.send('connection-string', connectionString);
+    // event.sender.send('connection-string', connectionString);
+    console.log('emit don\'t event ' + connectionString);
+    ipcMain.emit('connection-string', this.connectionString);
 });

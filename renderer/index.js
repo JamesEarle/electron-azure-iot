@@ -17,10 +17,6 @@ document.getElementById('list-button').addEventListener("click", () => {
     ipcRenderer.send('list-request', '');
 });
 
-ipcRenderer.on('registry-request', (event, arg) => {
-    ipcRenderer.send('make-reg');
-});
-
 document.getElementById('reset-button').addEventListener('click', () => {
     let table = document.getElementById("device-table");
     // console.log(table.rows.length);
