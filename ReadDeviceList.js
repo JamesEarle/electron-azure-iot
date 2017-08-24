@@ -1,5 +1,5 @@
 'use strict';
-
+//refactor into two different modules, registry functionality moved into its own module
 const { ipcMain } = require('electron');
 
 var iothub = require('azure-iothub');

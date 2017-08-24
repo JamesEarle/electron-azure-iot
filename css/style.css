@@ -44,3 +44,9 @@ table, th, tr, td {
     /* padding: 0 100px; */
     text-align: center;
 }
+
+#device-output {
+    margin: 25px 0 25px 0;
+    overflow-y: scroll;
+    word-wrap: break-word;
+}

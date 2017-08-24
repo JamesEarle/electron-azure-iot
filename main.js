@@ -36,8 +36,17 @@ app.on('activate', function () {
 	}
 });
 
+// https://www.npmjs.com/package/electron-settings
+// separate simulate and listen
+// readD2C should populate textarea
+// add meta properties
+// possible feature - if some prop is true, use style
+// support consumer groups on read
+// device twins
+// methods on device
+// simulate multiple devices, listen to multiple devices
 require('./CreateDeviceIdentity');
 require('./ReadDeviceList');
-require('./AddConnection');
+require('./ConnectionManager');
 
 // HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=

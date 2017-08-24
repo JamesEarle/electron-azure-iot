@@ -26,7 +26,7 @@ function printResultFor(op) {
     };
 }
 
-var connectCallback = function (err) {
+var connectCallback = function (client, err) {
     if (err) {
         console.log('Could not connect: ' + err);
     } else {
@@ -41,11 +41,11 @@ var connectCallback = function (err) {
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
             console.log("Sending message: " + message.getData());
             // this.client is undefined in this scope, nested I guess.
-            this.client.sendEvent(message, printResultFor('send'));
+            client.sendEvent(message, printResultFor('send'));
         }, 1000);
     }
 };
 
 exports.open = () => {
-    this.client.open(connectCallback);
+    this.client.open(connectCallback(this.client));
 }
