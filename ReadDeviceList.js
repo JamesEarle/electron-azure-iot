@@ -4,18 +4,18 @@ const { ipcMain } = require('electron');
 
 // var iothub = require('azure-iothub');
 
-var registry;
+// var registry;
 
 ipcMain.on('list-request', (event, arg) => {
     ipcMain.emit('registry-request');
-    // event.sender.send('get-registry', '')
-    // console.log('send reg request');
+    ipcMain.emit('get-registry');
 });
 
 
-ipcMain.on('registry', (event, arg) => {
-    arg.list((err, result) => {
-        event.sender.send('devices', result);
+ipcMain.on('registry', (registry) => {
+    registry.list((err, result) => {
+        ipcMain.emit('devices', result);
+        // event.sender.send('devices', result);
     });
 });
 

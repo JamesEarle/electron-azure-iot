@@ -6,21 +6,24 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
+let { ipcMain } = require('electron');
 let mainWindow;
 
 function createWindow() {
 	mainWindow = new BrowserWindow({ width: 800, height: 600 })
-
+	
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'index.html'),
 		protocol: 'file:',
 		slashes: true
 	}));
-
+	
 	mainWindow.on('closed', function () {
 		mainWindow = null
 	});
+
 }
+
 
 app.on('ready', createWindow)
 
@@ -49,12 +52,16 @@ require('./ConnectionManager');
 require('./RegistryManager');
 
 require('./ReadDeviceList');
+ipcMain.on('devices', (devices) => {
+	mainWindow.webContents.send('devices', devices);
+});
+
 
 // ipcMain.on('registry-request', (event, arg) => {
-//     console.log('starting registry creation1');
-// });
-
-
-// require('./CreateDeviceIdentity');
-
-// HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=
+	//     console.log('starting registry creation1');
+	// });
+	
+	
+	// require('./CreateDeviceIdentity');
+	
+	// HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=
