@@ -21,6 +21,7 @@ ipcMain.on('registry', (arg) => {
 })
 
 function createDevice (device) {
+    
     registry.create(device, function (err, deviceInfo, res) {
         if (err) { // already exists
             registry.get(device.deviceId, printDeviceInfo);

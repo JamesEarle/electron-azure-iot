@@ -45,7 +45,7 @@ table, th, tr, td {
     text-align: center;
 }
 
-#device-output {
+#output {
     margin: 25px 0 25px 0;
     overflow-y: scroll;
     word-wrap: break-word;

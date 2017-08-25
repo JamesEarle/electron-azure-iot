@@ -60,4 +60,5 @@ ipcMain.on('devices', (devices) => {
 });
 
 require('./CreateDeviceIdentity');
+require('./DeleteDeviceIdentity');
 // HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=

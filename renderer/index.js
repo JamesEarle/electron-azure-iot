@@ -46,12 +46,14 @@ ipcRenderer.on('devices', (event, arg) => {
         let c2dCount = row.insertCell(2);
         let connectionState = row.insertCell(3);
         let d2c = row.insertCell(4);
+        let deleteButton = row.insertCell(5);
 
         id.innerHTML = arg[i].deviceId;
         key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
         c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
         connectionState.innerHTML = arg[i].connectionState;
         d2c.innerHTML = "<a id='simulate-" + (i + 1) + "' href='#'>Simulate " + (i + 1) + "</a>";
+        deleteButton.innerHTML = "<a id='delete-" + (i + 1) + "' href='#'>Delete</a>"
     }
 
     for (let i = 0; i < arg.length; i++) {
@@ -64,6 +66,10 @@ ipcRenderer.on('devices', (event, arg) => {
             simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
             simulateDevice.createClient();
             simulateDevice.open();
+        });
+
+        document.getElementById('delete-' + (i + 1)).addEventListener('click', () => {
+            ipcRenderer.send('delete-device', arg[i].deviceId);
         });
     }
 });
