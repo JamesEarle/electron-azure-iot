@@ -21,7 +21,6 @@ function createWindow() {
 	mainWindow.on('closed', function () {
 		mainWindow = null
 	});
-
 }
 
 app.on('ready', createWindow)
@@ -41,6 +40,8 @@ app.on('activate', function () {
 // https://www.npmjs.com/package/electron-settings
 // separate simulate and listen
 // readD2C should populate textarea
+// add a delete device button in table
+// make textarea a general Output box (put device ID and key there on create)
 // add meta properties
 // possible feature - if some prop is true, use style
 // support consumer groups on read
@@ -58,4 +59,5 @@ ipcMain.on('devices', (devices) => {
 	mainWindow.webContents.send('devices', devices);
 });
 
+require('./CreateDeviceIdentity');
 // HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=

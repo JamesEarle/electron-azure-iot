@@ -19,13 +19,11 @@ document.getElementById('list-button').addEventListener("click", () => {
 
 document.getElementById('reset-button').addEventListener('click', () => {
     let table = document.getElementById("device-table");
-    // console.log(table.rows.length);
     for (let i = 1; i < table.rows.length; i++) {
         table.deleteRow(1);
         console.log(i);
     }
 });
-
 
 document.getElementById('add-connection').addEventListener('click', () => {
     const BrowserWindow = remote.BrowserWindow;
@@ -66,9 +64,6 @@ ipcRenderer.on('devices', (event, arg) => {
             simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
             simulateDevice.createClient();
             simulateDevice.open();
-            // console.log(arg[i].deviceId);
-            // console.log(arg[i].authentication.symmetricKey.primaryKey);
         });
     }
-
 });
