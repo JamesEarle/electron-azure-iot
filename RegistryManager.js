@@ -7,9 +7,8 @@ var connectionString;
 var registry;
 
 ipcMain.on('registry-request', (event, arg) => {
-    ipcMain.emit('get-connection-string'); 
+    ipcMain.emit('get-connection-string');
     registry = iothub.Registry.fromConnectionString(connectionString);
-    console.log('Successfully created registry.');
 });
 
 ipcMain.on('connection-string', (arg) => {

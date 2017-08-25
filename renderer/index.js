@@ -20,7 +20,7 @@ document.getElementById('list-button').addEventListener("click", () => {
 document.getElementById('reset-button').addEventListener('click', () => {
     let table = document.getElementById("device-table");
     // console.log(table.rows.length);
-    for(let i=1;i<table.rows.length;i++) {
+    for (let i = 1; i < table.rows.length; i++) {
         table.deleteRow(1);
         console.log(i);
     }
@@ -40,8 +40,8 @@ document.getElementById('add-connection').addEventListener('click', () => {
 // Create the table
 ipcRenderer.on('devices', (event, arg) => {
     let table = document.getElementById("device-table");
-    for(let i=0;i<arg.length;i++) {
-        let row = table.insertRow(i+1);
+    for (let i = 0; i < arg.length; i++) {
+        let row = table.insertRow(i + 1);
 
         let id = row.insertCell(0);
         let key = row.insertCell(1);
@@ -53,12 +53,12 @@ ipcRenderer.on('devices', (event, arg) => {
         key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
         c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
         connectionState.innerHTML = arg[i].connectionState;
-        d2c.innerHTML = "<a id='simulate-" + (i+1) + "' href='#'>Simulate " + (i+1) + "</a>";
+        d2c.innerHTML = "<a id='simulate-" + (i + 1) + "' href='#'>Simulate " + (i + 1) + "</a>";
     }
 
-    for (let i=0;i<arg.length;i++) {
+    for (let i = 0; i < arg.length; i++) {
         // Add event listeners for new a elements
-        document.getElementById('simulate-' + (i+1)).addEventListener('click', () => {
+        document.getElementById('simulate-' + (i + 1)).addEventListener('click', () => {
             // function that takes any given ID and listens on that device
             var d2cListener = require('../ReadD2CMessages');
             var simulateDevice = require('../SimulatedDevice');
