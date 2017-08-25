@@ -19,10 +19,13 @@ document.getElementById('list-button').addEventListener("click", () => {
 
 document.getElementById('reset-button').addEventListener('click', () => {
     let table = document.getElementById("device-table");
-    for (let i = 1; i < table.rows.length; i++) {
-        table.deleteRow(1);
-        console.log(i);
-    }
+    
+    let oldBody = document.getElementById('device-table-body');
+    
+    let newBody = document.createElement('tbody');
+    newBody.id = "device-table-body";
+    table.replaceChild(newBody, oldBody);
+    
 });
 
 document.getElementById('add-connection').addEventListener('click', () => {
@@ -37,9 +40,9 @@ document.getElementById('add-connection').addEventListener('click', () => {
 
 // Create the table
 ipcRenderer.on('devices', (event, arg) => {
-    let table = document.getElementById("device-table");
+    let table = document.getElementById("device-table-body");
     for (let i = 0; i < arg.length; i++) {
-        let row = table.insertRow(i + 1);
+        let row = table.insertRow(i);
 
         let id = row.insertCell(0);
         let key = row.insertCell(1);
@@ -72,4 +75,10 @@ ipcRenderer.on('devices', (event, arg) => {
             ipcRenderer.send('delete-device', arg[i].deviceId);
         });
     }
+});
+
+
+
+ipcRenderer.on('table-reset', (event, arg) => {
+    console.log('resetting table');
 });
