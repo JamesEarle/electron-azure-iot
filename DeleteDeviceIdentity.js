@@ -7,12 +7,13 @@ var registry;
 ipcMain.on('delete-device', (event, arg) => {
     ipcMain.emit('get-registry');
     registry.delete(arg, (err) => {
-        if(err) {
+        if (err) {
             console.log(err);
         }
     });
-    // then erase table and repopulate
-    event.sender.send('table-reset');
+    
+    console.log('delete device: ' + arg);
+    event.sender.send('table-refresh');
 });
 
 ipcMain.on('registry', (arg) => {

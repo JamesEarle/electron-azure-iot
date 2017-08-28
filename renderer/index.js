@@ -18,14 +18,7 @@ document.getElementById('list-button').addEventListener("click", () => {
 });
 
 document.getElementById('reset-button').addEventListener('click', () => {
-    let table = document.getElementById("device-table");
-    
-    let oldBody = document.getElementById('device-table-body');
-    
-    let newBody = document.createElement('tbody');
-    newBody.id = "device-table-body";
-    table.replaceChild(newBody, oldBody);
-    
+    clearDeviceTable();
 });
 
 document.getElementById('add-connection').addEventListener('click', () => {
@@ -41,44 +34,66 @@ document.getElementById('add-connection').addEventListener('click', () => {
 // Create the table
 ipcRenderer.on('devices', (event, arg) => {
     let table = document.getElementById("device-table-body");
-    for (let i = 0; i < arg.length; i++) {
-        let row = table.insertRow(i);
 
-        let id = row.insertCell(0);
-        let key = row.insertCell(1);
-        let c2dCount = row.insertCell(2);
-        let connectionState = row.insertCell(3);
-        let d2c = row.insertCell(4);
-        let deleteButton = row.insertCell(5);
+    // Table is already populated, clear and refresh
+    if (table.rows.length > 0) {
+        clearDeviceTable();    
+        ipcRenderer.send('list-request');
+    } else {
+        for (let i = 0; i < arg.length; i++) {
+            let row = table.insertRow(i);
 
-        id.innerHTML = arg[i].deviceId;
-        key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
-        c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
-        connectionState.innerHTML = arg[i].connectionState;
-        d2c.innerHTML = "<a id='simulate-" + (i + 1) + "' href='#'>Simulate " + (i + 1) + "</a>";
-        deleteButton.innerHTML = "<a id='delete-" + (i + 1) + "' href='#'>Delete</a>"
-    }
+            console.log('in for loop');
 
-    for (let i = 0; i < arg.length; i++) {
-        // Add event listeners for new a elements
-        document.getElementById('simulate-' + (i + 1)).addEventListener('click', () => {
-            // function that takes any given ID and listens on that device
-            var d2cListener = require('../ReadD2CMessages');
-            var simulateDevice = require('../SimulatedDevice');
-            d2cListener.createConnection();
-            simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
-            simulateDevice.createClient();
-            simulateDevice.open();
-        });
+            let id = row.insertCell(0);
+            let key = row.insertCell(1);
+            let c2dCount = row.insertCell(2);
+            let connectionState = row.insertCell(3);
+            let d2c = row.insertCell(4);
+            let deleteButton = row.insertCell(5);
 
-        document.getElementById('delete-' + (i + 1)).addEventListener('click', () => {
-            ipcRenderer.send('delete-device', arg[i].deviceId);
-        });
+            id.innerHTML = arg[i].deviceId;
+            key.innerHTML = arg[i].authentication.symmetricKey.primaryKey;
+            c2dCount.innerHTML = arg[i].cloudToDeviceMessageCount;
+            connectionState.innerHTML = arg[i].connectionState;
+            d2c.innerHTML = "<a id='simulate-" + (i + 1) + "' href='#'>Simulate " + (i + 1) + "</a>";
+            deleteButton.innerHTML = "<a id='delete-" + (i + 1) + "' href='#'>Delete</a>"
+        }
+
+        for (let i = 0; i < arg.length; i++) {
+            // Add event listeners for new a elements
+            document.getElementById('simulate-' + (i + 1)).addEventListener('click', () => {
+                // function that takes any given ID and listens on that device
+                var d2cListener = require('../ReadD2CMessages');
+                var simulateDevice = require('../SimulatedDevice');
+                d2cListener.createConnection();
+                simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
+                simulateDevice.createClient();
+                simulateDevice.open();
+            });
+
+            document.getElementById('delete-' + (i + 1)).addEventListener('click', () => {
+                ipcRenderer.send('delete-device', arg[i].deviceId);
+            });
+        }
     }
 });
 
-
-
-ipcRenderer.on('table-reset', (event, arg) => {
-    console.log('resetting table');
+ipcRenderer.on('table-refresh', (event, arg) => {
+    console.log('refreshing table');
+    clearDeviceTable();
+    // setTimeout(function () {
+    //     console.log('waiting');
+    // }, 3000);
+    ipcRenderer.send('read-device-list');
 });
+
+function clearDeviceTable() {
+    let table = document.getElementById("device-table");
+
+    let oldBody = document.getElementById('device-table-body');
+    let newBody = document.createElement('tbody');
+    newBody.id = "device-table-body";
+
+    table.replaceChild(newBody, oldBody);
+}

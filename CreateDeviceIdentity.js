@@ -13,7 +13,8 @@ ipcMain.on('click-confirm', (event, arg) => {
     device.deviceId = arg;
     ipcMain.emit('registry-request'); //ensure registry has been created
     ipcMain.emit('get-registry');
-	createDevice(device);
+    createDevice(device);
+    event.sender.send('table-refresh'); // not working really..
 });
 
 ipcMain.on('registry', (arg) => {

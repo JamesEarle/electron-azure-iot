@@ -9,6 +9,7 @@ var Message = require('azure-iot-device').Message;
 let connectionString;
 let client;
 
+// Needs to allow for setting the iot hub name
 exports.createConnection = (id, key) => {
     this.connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
 }
