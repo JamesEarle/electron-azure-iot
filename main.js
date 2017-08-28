@@ -39,6 +39,8 @@ app.on('activate', function () {
 
 // https://www.npmjs.com/package/electron-settings
 // separate simulate and listen
+// configurable IoT Hub.
+// create message manager
 // readD2C should populate textarea
 // add a delete device button in table
 // make textarea a general Output box (put device ID and key there on create)
@@ -50,15 +52,22 @@ app.on('activate', function () {
 // simulate multiple devices, listen to multiple devices
 require('./ConnectionManager');
 require('./RegistryManager');
-
-// When other main process modules have completed their tasks, they broadcast
-// the results, then the main window is responsible for listening and passing 
-// along to the renderer process.
+require('./CreateDeviceIdentity');
+require('./DeleteDeviceIdentity');
 require('./ReadDeviceList');
+
+// Need to route channels through main process to manipulate 
+// DOM due to document loading.
 ipcMain.on('devices', (devices) => {
 	mainWindow.webContents.send('devices', devices);
 });
 
-require('./CreateDeviceIdentity');
-require('./DeleteDeviceIdentity');
+ipcMain.on('output-text', (data) => {
+	mainWindow.webContents.send('output-text', data);
+});
+
+ipcMain.on('table-refresh', () => {
+	mainWindow.webContents.send('table-refresh');
+});
+
 // HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=

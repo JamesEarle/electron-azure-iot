@@ -43,8 +43,6 @@ ipcRenderer.on('devices', (event, arg) => {
         for (let i = 0; i < arg.length; i++) {
             let row = table.insertRow(i);
 
-            console.log('in for loop');
-
             let id = row.insertCell(0);
             let key = row.insertCell(1);
             let c2dCount = row.insertCell(2);
@@ -79,21 +77,25 @@ ipcRenderer.on('devices', (event, arg) => {
     }
 });
 
+// message gets received but isn't working right...
 ipcRenderer.on('table-refresh', (event, arg) => {
-    console.log('refreshing table');
     clearDeviceTable();
-    // setTimeout(function () {
-    //     console.log('waiting');
-    // }, 3000);
-    ipcRenderer.send('read-device-list');
+    // ipcRenderer.send('list-request');
+});
+
+ipcRenderer.on('output-text', (event, data) => {
+    let textarea = document.getElementById('output');
+    textarea.textContent = data + "\n" + textarea.textContent;
 });
 
 function clearDeviceTable() {
     let table = document.getElementById("device-table");
 
-    let oldBody = document.getElementById('device-table-body');
-    let newBody = document.createElement('tbody');
-    newBody.id = "device-table-body";
-
-    table.replaceChild(newBody, oldBody);
+    if (table) {
+        let oldBody = document.getElementById('device-table-body');
+        let newBody = document.createElement('tbody');
+        newBody.id = "device-table-body";
+    
+        table.replaceChild(newBody, oldBody);
+    }
 }

@@ -3,9 +3,6 @@
 const { ipcMain } = require('electron');
 var iothub = require('azure-iothub');
 
-// var conn = "HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=";
-// var registry = iothub.Registry.fromConnectionString(conn);
-
 var registry;
 var device = new iothub.Device(null);
 
@@ -13,23 +10,27 @@ ipcMain.on('click-confirm', (event, arg) => {
     device.deviceId = arg;
     ipcMain.emit('registry-request'); //ensure registry has been created
     ipcMain.emit('get-registry');
-    createDevice(device);
-    event.sender.send('table-refresh'); // not working really..
+    createDevice(device, event);
+    ipcMain.emit('table-refresh');
 });
 
 ipcMain.on('registry', (arg) => {
     registry = arg;
 })
 
-function createDevice (device) {
-    
+function createDevice (device, event) {
     registry.create(device, function (err, deviceInfo, res) {
         if (err) { // already exists
             registry.get(device.deviceId, printDeviceInfo);
             console.log("err");
         }
         if (deviceInfo) {
-            printDeviceInfo(err, deviceInfo, res);
+            // printDeviceInfo(err, deviceInfo, res);
+            ipcMain.emit('output-text', "--------------------------------------------");            
+            ipcMain.emit('output-text', "Device Key: " + deviceInfo.authentication.symmetricKey.primaryKey);
+            ipcMain.emit('output-text', "Device ID: " + deviceInfo.deviceId);
+            ipcMain.emit('output-text', "*** Added new device to hub ***");
+            ipcMain.emit('output-text', "--------------------------------------------");
         }
     });
 }
