@@ -6,13 +6,8 @@ let registry;
 
 ipcMain.on('list-request', (event, arg) => {
     ipcMain.emit('registry-request'); // check if this is necessary
-    // ipcMain.emit('get-registry');
-    registry = settings.get('registry');
-    // ipcMain.emit('read-device-list');
-    console.log(registry);
-    registry.list((err, result) => {
-        ipcMain.emit('devices', result);
-    });
+    ipcMain.emit('get-registry');
+    ipcMain.emit('read-device-list');
 });
 
 ipcMain.on('registry', (arg) => {
