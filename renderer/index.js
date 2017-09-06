@@ -21,6 +21,16 @@ document.getElementById('reset-button').addEventListener('click', () => {
     clearDeviceTable();
 });
 
+document.getElementById('output-clear-button').addEventListener('click', () => {
+    let textarea = document.getElementById('output');
+    textarea.textContent = "";    
+});
+
+document.getElementById('output-stop-button').addEventListener('click', () => {
+    var simulateDevice = require('../SimulatedDevice');
+    simulateDevice.close();    
+});
+
 document.getElementById('add-connection').addEventListener('click', () => {
     const BrowserWindow = remote.BrowserWindow;
     var win = new BrowserWindow({ width: 400, height: 200 });

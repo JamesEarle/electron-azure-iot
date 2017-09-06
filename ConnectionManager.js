@@ -9,8 +9,10 @@ var connectionString;
 ipcMain.on('connection-request', (event, arg) => {
     connectionString = deleteThis;
     settings.set('connection-string', connectionString);
+    ipcMain.emit('connect', connectionString);
 });
 
+// this should no longer be used.
 ipcMain.on('get-connection-string', (event, arg) => {
     ipcMain.emit('connection-string', connectionString);
 });

@@ -53,3 +53,7 @@ var connectCallback = function (client, err) {
 exports.open = () => {
     this.client.open(connectCallback(this.client));
 }
+
+exports.close = () => {
+    this.client.close();
+}

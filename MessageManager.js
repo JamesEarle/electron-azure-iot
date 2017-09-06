@@ -2,6 +2,13 @@
 
 const { ipcMain } = require('electron');
 
+ipcMain.on('connect', (arg) => {
+    sendLine();
+    ipcMain.emit('output-text', arg);    
+    ipcMain.emit('output-text', "Connecting to hub...");
+    sendLine();
+});
+
 ipcMain.on('create', (arg) => {
     sendLine();
     ipcMain.emit('output-text', "Device Key: " + arg.authentication.symmetricKey.primaryKey);
