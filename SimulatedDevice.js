@@ -10,15 +10,23 @@ var Message = require('azure-iot-device').Message;
 let connectionString;
 let client;
 let deviceId;
+let deviceKey;
 
 // Needs to allow for setting the iot hub name
 exports.createConnection = (id, key) => {
     deviceId = id;
+    deviceKey = key;
     this.connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
+}
+
+// how will this work with multiple devices inside index.js?
+exports.getConnection = () => {
+    return {id: deviceId, key, deviceKey}
 }
 
 exports.createClient = () => {
     this.client = clientFromConnectionString(this.connectionString);
+    
     // console.log(this.connectionString);
 }
 

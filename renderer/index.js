@@ -28,6 +28,7 @@ document.getElementById('output-clear-button').addEventListener('click', () => {
 
 document.getElementById('output-stop-button').addEventListener('click', () => {
     var simulateDevice = require('../SimulatedDevice');
+    console.log("STOP");
     simulateDevice.close();    
 });
 
