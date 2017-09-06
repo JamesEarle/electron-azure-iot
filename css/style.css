@@ -35,18 +35,24 @@ table, th, tr, td {
     margin: 10px 30px;
 }
 
+.btn:hover {
+    background-color:#BBBBBB
+}
+
 .btn-group {
     margin-bottom: 20px;
 }
 
 .wrapper {
     width: 100%;
-    /* padding: 0 100px; */
     text-align: center;
 }
 
+.btn-group-alt {
+    margin-top: 10px;
+}
+
 #output {
-    margin: 25px 0 25px 0;
     overflow-y: scroll;
     word-wrap: break-word;
 }
