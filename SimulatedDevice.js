@@ -9,9 +9,11 @@ var Message = require('azure-iot-device').Message;
 
 let connectionString;
 let client;
+let deviceId;
 
 // Needs to allow for setting the iot hub name
 exports.createConnection = (id, key) => {
+    deviceId = id;
     this.connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
 }
 
@@ -38,7 +40,7 @@ var connectCallback = function (client, err) {
         setInterval(function () {
             var temperature = 20 + (Math.random() * 15);
             var humidity = 60 + (Math.random() * 20);
-            var data = JSON.stringify({ deviceId: 'MyFavouriteDevice', temperature: temperature, humidity: humidity });
+            var data = JSON.stringify({ deviceId: deviceId, temperature: temperature, humidity: humidity });
             var message = new Message(data);
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
             // console.log("Sending message: " + message.getData());
