@@ -23,8 +23,10 @@ ipcMain.on('delete', (arg) => {
     sendLine();
 });
 
-ipcMain.on('simulate', (arg) => {
-
+ipcMain.on('simulate', (event, arg) => {
+    sendLine();
+    ipcMain.emit('output-text', arg)
+    sendLine();
 });
 
 function sendLine() {

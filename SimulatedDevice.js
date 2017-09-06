@@ -1,4 +1,5 @@
 'use strict';
+const { ipcRenderer } = require('electron')
 
 var clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString;
 var Message = require('azure-iot-device').Message;
@@ -16,7 +17,7 @@ exports.createConnection = (id, key) => {
 
 exports.createClient = () => {
     this.client = clientFromConnectionString(this.connectionString);
-    console.log(this.connectionString);
+    // console.log(this.connectionString);
 }
 
 
@@ -40,7 +41,9 @@ var connectCallback = function (client, err) {
             var data = JSON.stringify({ deviceId: 'MyFavouriteDevice', temperature: temperature, humidity: humidity });
             var message = new Message(data);
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
-            console.log("Sending message: " + message.getData());
+            // console.log("Sending message: " + message.getData());
+            ipcRenderer.send('simulate', "Sending message: " + message.getData());
+
             // this.client is undefined in this scope, nested I guess.
             client.sendEvent(message, printResultFor('send'));
         }, 1000);
