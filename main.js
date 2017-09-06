@@ -52,6 +52,7 @@ app.on('activate', function () {
 // simulate multiple devices, listen to multiple devices
 require('./ConnectionManager');
 require('./RegistryManager');
+require('./MessageManager')
 require('./CreateDeviceIdentity');
 require('./DeleteDeviceIdentity');
 require('./ReadDeviceList');

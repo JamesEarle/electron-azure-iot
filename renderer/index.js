@@ -80,8 +80,8 @@ ipcRenderer.on('devices', (event, arg) => {
 // message gets received but isn't working right...
 ipcRenderer.on('table-refresh', (event, arg) => {
     clearDeviceTable();
-    // ipcRenderer.send('list-request');
 });
+// ipcRenderer.send('list-request');
 
 ipcRenderer.on('output-text', (event, data) => {
     let textarea = document.getElementById('output');

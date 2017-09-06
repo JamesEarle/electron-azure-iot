@@ -25,12 +25,7 @@ function createDevice (device, event) {
             console.log("err");
         }
         if (deviceInfo) {
-            // printDeviceInfo(err, deviceInfo, res);
-            ipcMain.emit('output-text', "--------------------------------------------");            
-            ipcMain.emit('output-text', "Device Key: " + deviceInfo.authentication.symmetricKey.primaryKey);
-            ipcMain.emit('output-text', "Device ID: " + deviceInfo.deviceId);
-            ipcMain.emit('output-text', "*** Added new device to hub ***");
-            ipcMain.emit('output-text', "--------------------------------------------");
+            ipcMain.emit('create', deviceInfo);
         }
     });
 }

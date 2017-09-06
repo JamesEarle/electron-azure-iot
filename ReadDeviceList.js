@@ -15,6 +15,7 @@ ipcMain.on('registry', (arg) => {
 });
         
 ipcMain.on('read-device-list', () => {
+    ipcMain.emit('read');
     registry.list((err, result) => {
         ipcMain.emit('devices', result);
     });
