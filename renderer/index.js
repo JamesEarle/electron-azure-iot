@@ -75,8 +75,9 @@ ipcRenderer.on('devices', (event, arg) => {
             // Add event listeners for new a elements
             document.getElementById('simulate-' + (i + 1)).addEventListener('click', () => {
                 // function that takes any given ID and listens on that device
-                // var d2cListener = require('../ReadD2CMessages');
-                // d2cListener.createConnection();
+                var d2cListener = require('../ReadD2CMessages');
+                d2cListener.open();
+                
                 simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
                 simulateDevice.createClient();
                 simulateDevice.open();

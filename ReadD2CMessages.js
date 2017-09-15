@@ -4,18 +4,12 @@ let { ipcRenderer } = require('electron');
 
 var EventHubClient = require('azure-event-hubs').Client;
 
-// var connectionString = '';
-var connectionString;// = "HostName=iot-practice-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=hFhSOVBFLfuELG20j6XjhQ5wZTshXETGvb5sWDvACok=";
+const settings = require('electron-settings');
 
-exports.createConnection = () => {
-	// console.log('also connecting from redd2c');
-	// this.connectionString = conn;
-	ipcRenderer.send('get-connection-string', '');
-	ipcRenderer.on('connection-string', (event, arg) => {
-		connectionString = arg;
-		createReceiver();
-	});
-}
+const connectionString = settings.get('connection-string'); 
+let client = EventHubClient.fromConnectionString(connectionString);
+
+exports.open = createReceiver;
 
 var printError = function (err) {
 	console.log(err.message);
@@ -29,7 +23,6 @@ var printMessage = function (message) {
 
 function createReceiver() {
 	console.log('create receiver');
-	var client = EventHubClient.fromConnectionString(connectionString);
 
 	client.open()
 		.then(client.getPartitionIds.bind(client))

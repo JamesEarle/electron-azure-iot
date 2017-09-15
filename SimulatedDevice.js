@@ -4,9 +4,6 @@ const { ipcRenderer } = require('electron')
 var clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString;
 var Message = require('azure-iot-device').Message;
 
-// temp, make work first then get dynamic conn strings
-// var connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=MyFavouriteDevice;SharedAccessKey=lwkqyASM1KcY6p8sprk6MDW2DlZeFkB5ftjpWq7J05I=';
-
 let connectionString;
 let client;
 let deviceId;
@@ -19,7 +16,6 @@ exports.createConnection = (id, key) => {
     connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
 }
 
-// how will this work with multiple devices inside index.js?
 exports.getConnection = () => {
     return {id: deviceId, key, deviceKey}
 }
@@ -32,7 +28,7 @@ exports.createClient = () => {
 function printResultFor(op) {
     return function printResult(err, res) {
         if (err) console.log(op + ' error: ' + err.toString());
-        if (res) console.log(op + ' status: ' + res.constructor.name);
+        // if (res) console.log(op + ' status: ' + res.constructor.name);
     };
 }
 
@@ -67,12 +63,4 @@ exports.close = () => {
     console.log("closing client");
     client.removeAllListeners();
     client.close();
-    // console.log("sendinterval = " + sendInterval);
-    // client.sendEvent("disconnect")
-    // client.on("disconnect", () => {
-    //     clearInterval(sendInterval);
-    //     client.removeAllListeners();
-    //     client.close();
-    //     // client.open(connectCallback);
-    // });
 }
