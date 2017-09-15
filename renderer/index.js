@@ -23,7 +23,7 @@ document.getElementById('reset-button').addEventListener('click', () => {
 
 document.getElementById('output-clear-button').addEventListener('click', () => {
     let textarea = document.getElementById('output');
-    textarea.textContent = "";    
+    textarea.textContent = "";
 });
 
 document.getElementById('add-connection').addEventListener('click', () => {
@@ -42,7 +42,7 @@ ipcRenderer.on('devices', (event, arg) => {
 
     // Table is already populated, clear and refresh
     if (table.rows.length > 0) {
-        clearDeviceTable();    
+        clearDeviceTable();
         ipcRenderer.send('list-request');
     } else {
         for (let i = 0; i < arg.length; i++) {
@@ -66,9 +66,7 @@ ipcRenderer.on('devices', (event, arg) => {
         var simulateDevice = require('../SimulatedDevice');
 
         document.getElementById('output-stop-button').addEventListener('click', () => {
-            // var simulateDevice = require('../SimulatedDevice');
-            console.log("STOP");
-            simulateDevice.close();    
+            simulateDevice.close();
         });
 
         for (let i = 0; i < arg.length; i++) {
@@ -77,12 +75,11 @@ ipcRenderer.on('devices', (event, arg) => {
                 // function that takes any given ID and listens on that device
                 var d2cListener = require('../ReadD2CMessages');
                 d2cListener.open();
-                
+
                 simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
                 simulateDevice.createClient();
                 simulateDevice.open();
             });
-
 
             document.getElementById('delete-' + (i + 1)).addEventListener('click', () => {
                 ipcRenderer.send('delete-device', arg[i].deviceId);
@@ -95,7 +92,6 @@ ipcRenderer.on('devices', (event, arg) => {
 ipcRenderer.on('table-refresh', (event, arg) => {
     clearDeviceTable();
 });
-// ipcRenderer.send('list-request');
 
 ipcRenderer.on('output-text', (event, data) => {
     let textarea = document.getElementById('output');
@@ -109,7 +105,7 @@ function clearDeviceTable() {
         let oldBody = document.getElementById('device-table-body');
         let newBody = document.createElement('tbody');
         newBody.id = "device-table-body";
-    
+
         table.replaceChild(newBody, oldBody);
     }
 }

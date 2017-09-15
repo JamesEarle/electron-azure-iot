@@ -28,7 +28,6 @@ exports.createClient = () => {
 function printResultFor(op) {
     return function printResult(err, res) {
         if (err) console.log(op + ' error: ' + err.toString());
-        // if (res) console.log(op + ' status: ' + res.constructor.name);
     };
 }
 
@@ -49,7 +48,6 @@ var connectCallback = function (client, err) {
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
             ipcRenderer.send('simulate', "Sending message: " + message.getData());
 
-            // this.client is undefined in this scope, nested I guess.
             client.sendEvent(message, printResultFor('send'));
         }, 1000);
     }

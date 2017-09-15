@@ -1,12 +1,10 @@
 'use strict';
 
 let { ipcRenderer } = require('electron');
-
 var EventHubClient = require('azure-event-hubs').Client;
-
 const settings = require('electron-settings');
 
-const connectionString = settings.get('connection-string'); 
+const connectionString = settings.get('connection-string');
 let client = EventHubClient.fromConnectionString(connectionString);
 
 exports.open = createReceiver;
