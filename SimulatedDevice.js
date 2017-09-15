@@ -16,7 +16,7 @@ let deviceKey;
 exports.createConnection = (id, key) => {
     deviceId = id;
     deviceKey = key;
-    this.connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
+    connectionString = 'HostName=iot-practice-hub.azure-devices.net;DeviceId=' + id +';SharedAccessKey=' + key;
 }
 
 // how will this work with multiple devices inside index.js?
@@ -25,9 +25,7 @@ exports.getConnection = () => {
 }
 
 exports.createClient = () => {
-    this.client = clientFromConnectionString(this.connectionString);
-    
-    // console.log(this.connectionString);
+    client = clientFromConnectionString(connectionString);
 }
 
 
@@ -38,6 +36,8 @@ function printResultFor(op) {
     };
 }
 
+var sendInterval;
+
 var connectCallback = function (client, err) {
     if (err) {
         console.log('Could not connect: ' + err);
@@ -45,13 +45,12 @@ var connectCallback = function (client, err) {
         console.log('Client connected');
 
         // Create a message and send it to the IoT Hub every second
-        setInterval(function () {
+        sendInterval = setInterval(function () {
             var temperature = 20 + (Math.random() * 15);
             var humidity = 60 + (Math.random() * 20);
             var data = JSON.stringify({ deviceId: deviceId, temperature: temperature, humidity: humidity });
             var message = new Message(data);
             message.properties.add('temperatureAlert', (temperature > 30) ? 'true' : 'false');
-            // console.log("Sending message: " + message.getData());
             ipcRenderer.send('simulate', "Sending message: " + message.getData());
 
             // this.client is undefined in this scope, nested I guess.
@@ -61,9 +60,19 @@ var connectCallback = function (client, err) {
 };
 
 exports.open = () => {
-    this.client.open(connectCallback(this.client));
+    client.open(connectCallback(client));
 }
 
 exports.close = () => {
-    this.client.close();
+    console.log("closing client");
+    client.removeAllListeners();
+    client.close();
+    // console.log("sendinterval = " + sendInterval);
+    // client.sendEvent("disconnect")
+    // client.on("disconnect", () => {
+    //     clearInterval(sendInterval);
+    //     client.removeAllListeners();
+    //     client.close();
+    //     // client.open(connectCallback);
+    // });
 }

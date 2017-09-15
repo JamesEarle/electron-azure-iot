@@ -26,12 +26,6 @@ document.getElementById('output-clear-button').addEventListener('click', () => {
     textarea.textContent = "";    
 });
 
-document.getElementById('output-stop-button').addEventListener('click', () => {
-    var simulateDevice = require('../SimulatedDevice');
-    console.log("STOP");
-    simulateDevice.close();    
-});
-
 document.getElementById('add-connection').addEventListener('click', () => {
     const BrowserWindow = remote.BrowserWindow;
     var win = new BrowserWindow({ width: 400, height: 200 });
@@ -69,17 +63,25 @@ ipcRenderer.on('devices', (event, arg) => {
             deleteButton.innerHTML = "<a id='delete-" + (i + 1) + "' href='#'>Delete</a>"
         }
 
+        var simulateDevice = require('../SimulatedDevice');
+
+        document.getElementById('output-stop-button').addEventListener('click', () => {
+            // var simulateDevice = require('../SimulatedDevice');
+            console.log("STOP");
+            simulateDevice.close();    
+        });
+
         for (let i = 0; i < arg.length; i++) {
             // Add event listeners for new a elements
             document.getElementById('simulate-' + (i + 1)).addEventListener('click', () => {
                 // function that takes any given ID and listens on that device
                 // var d2cListener = require('../ReadD2CMessages');
-                var simulateDevice = require('../SimulatedDevice');
                 // d2cListener.createConnection();
                 simulateDevice.createConnection(arg[i].deviceId, arg[i].authentication.symmetricKey.primaryKey);
                 simulateDevice.createClient();
                 simulateDevice.open();
             });
+
 
             document.getElementById('delete-' + (i + 1)).addEventListener('click', () => {
                 ipcRenderer.send('delete-device', arg[i].deviceId);
